@@ -1,0 +1,7 @@
+body {
+  text-align: center; }
+  body canvas#board {
+    margin: auto;
+    display: block;
+    border: 1px solid black;
+    cursor: none; }
