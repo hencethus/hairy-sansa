@@ -1,5 +1,5 @@
 (function() {
-  var drawCircle, getCoordinates, getRandomColor, getRanromRadius, pad;
+  var drawCircle, getCoordinates, getRandomColor, getRanromRadius, invert, pad;
 
   window.red = 136;
 
@@ -13,18 +13,35 @@
     var canvas;
     canvas = document.getElementById('board');
     return canvas.onmousemove = function(e) {
-      var ctx, r, x, y, _ref;
+      var ctx, invertBack, numShapes, persist, r, x, y, _ref;
       ctx = canvas.getContext('2d');
+      persist = document.getElementById('persist').checked;
+      invertBack = document.getElementById('invert').checked;
+      if (!persist) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (invertBack) {
+          ctx.rect(0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = invert(getRandomColor());
+          ctx.fill();
+        }
+      }
       _ref = getCoordinates(canvas, e), x = _ref[0], y = _ref[1];
       r = getRanromRadius();
+      numShapes = document.getElementById('number').value;
       drawCircle(x, y, r, canvas);
-      drawCircle(1280 - x, 720 - y, r, canvas);
-      drawCircle(x, 720 - y, r, canvas);
-      drawCircle(1280 - x, y, r, canvas);
-      drawCircle(y * 1.7778, x * 0.5625, r, canvas);
-      drawCircle(1280 - y * 1.7778, 720 - x * 0.5625, r, canvas);
-      drawCircle(y * 1.7778, 720 - x * 0.5625, r, canvas);
-      return drawCircle(1280 - y * 1.7778, x * 0.5625, r, canvas);
+      if (numShapes >= 2) {
+        drawCircle(1280 - x, 720 - y, r, canvas);
+      }
+      if (numShapes >= 3) {
+        drawCircle(x, 720 - y, r, canvas);
+        drawCircle(1280 - x, y, r, canvas);
+      }
+      if (numShapes >= 4) {
+        drawCircle(y * 1.7778, x * 0.5625, r, canvas);
+        drawCircle(1280 - y * 1.7778, 720 - x * 0.5625, r, canvas);
+        drawCircle(y * 1.7778, 720 - x * 0.5625, r, canvas);
+        return drawCircle(1280 - y * 1.7778, x * 0.5625, r, canvas);
+      }
     };
   };
 
@@ -68,7 +85,6 @@
     if (window.blue < 0) {
       window.blue = 0;
     }
-    console.log("red: " + window.red + ", green: " + window.green + ", blue: " + window.blue);
     r = pad(window.red.toString(16), 2);
     g = pad(window.green.toString(16), 2);
     b = pad(window.blue.toString(16), 2);
@@ -93,6 +109,18 @@
       str = '0' + str;
     }
     return str;
+  };
+
+  invert = function(color) {
+    var b, g, r;
+    color = color.slice(1);
+    r = 255 - parseInt(color.slice(0, 2), 16);
+    g = 255 - parseInt(color.slice(2, 4), 16);
+    b = 255 - parseInt(color.slice(4), 16);
+    r = pad(r.toString(16), 2);
+    g = pad(g.toString(16), 2);
+    b = pad(b.toString(16), 2);
+    return "#" + r + g + b;
   };
 
 }).call(this);
