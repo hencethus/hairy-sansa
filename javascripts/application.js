@@ -13,7 +13,7 @@
     var canvas;
     canvas = document.getElementById('board');
     return canvas.onmousemove = function(e) {
-      var ctx, invertBack, numShapes, persist, r, x, y, _ref;
+      var ctx, dataURL, invertBack, numShapes, persist, r, x, y, _ref;
       ctx = canvas.getContext('2d');
       persist = document.getElementById('persist').checked;
       invertBack = document.getElementById('invert').checked;
@@ -40,8 +40,10 @@
         drawCircle(y * 1.7778, x * 0.5625, r, canvas);
         drawCircle(1280 - y * 1.7778, 720 - x * 0.5625, r, canvas);
         drawCircle(y * 1.7778, 720 - x * 0.5625, r, canvas);
-        return drawCircle(1280 - y * 1.7778, x * 0.5625, r, canvas);
+        drawCircle(1280 - y * 1.7778, x * 0.5625, r, canvas);
       }
+      dataURL = canvas.toDataURL();
+      return document.getElementById('download').setAttribute('href', dataURL);
     };
   };
 
