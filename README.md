@@ -1,3 +1,3 @@
 # hairy-sansa
 Experimenting with HTML5 canvas:
-http://hencethus.github.io/hairy-sansa/
+http://mwmccarthy.github.io/hairy-sansa/
